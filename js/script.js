@@ -56,6 +56,70 @@ let Products_grid = document.getElementById("Products_grid")
             }
             Products_grid.append(li)
         })
+        /* Asignno a botones a todos los elementos de la clase de ButonProd */
+var botones = document.getElementsByClassName("ButtonProd")
+//De esta manera evito tener muchas variables de distintos botones y me permite agregar o quitar con facilidad mas botones en caso de que lo necesite
+/* Luego recorro todos los botones añadiendo un listener a cada uno para controlar cuando se les clickea,
+y añado la funcion La cual segun el id del boton que se clickeo añade dicho objeto al carrito*/
+for (var i = 0; i < botones.length; i++) {
+    botones[i].addEventListener("click", respuestaClickProd)
+    function respuestaClickProd(){
+        var boton2 = this.id;
+        switch (boton2) {
+            case "ButtonChomba":
+                agregarCarrito(data[0])
+                NewProductNotification(data[0])
+                GuardarlistaLS()
+                break;
+            case "ButtonRemera":
+                agregarCarrito(data[1])
+                NewProductNotification(data[1])
+                GuardarlistaLS()
+                break;
+            case "ButtonCuaderno":
+                agregarCarrito(data[2])
+                NewProductNotification(data[2])
+                GuardarlistaLS()
+                break;
+            case "ButtonCD":
+                agregarCarrito(data[3])
+                NewProductNotification(data[3])
+                GuardarlistaLS()
+                break;
+            case "ButtonGorraGradient":
+                agregarCarrito(data[4])
+                NewProductNotification(data[4])
+                GuardarlistaLS()
+                break;
+            case "ButtonGorraBlackAndWhite":
+                agregarCarrito(data[5])
+                NewProductNotification(data[5])
+                GuardarlistaLS()
+                break;
+            case "ButtonTaza":
+                agregarCarrito(data[6])
+                NewProductNotification(data[6])
+                GuardarlistaLS()
+                break;
+            case "ButtonCubrebocas":
+                agregarCarrito(data[7])
+                NewProductNotification(data[7])
+                GuardarlistaLS()
+                break;
+            case "ButtonStickers":
+                agregarCarrito(data[8])
+                NewProductNotification(data[8])
+                GuardarlistaLS()
+                break;
+            case "ButtonPendrive":
+                agregarCarrito(data[9])
+                NewProductNotification(data[9])
+                GuardarlistaLS()
+                break;
+        }
+    }
+}
+
     }
 pedirPosts()
 
@@ -68,69 +132,7 @@ if(listaLS){
 /* Instancio un objeto carrito con la lista de objetos, el total del carrito y la cantidad de objetos del mismo */
 var carrito = {lista, total: 0, cantidad: lista.length};
 
-/* Asignno a botones a todos los elementos de la clase de ButonProd */
-var botones = document.getElementsByClassName("ButtonProd")
-//De esta manera evito tener muchas variables de distintos botones y me permite agregar o quitar con facilidad mas botones en caso de que lo necesite
-/* Luego recorro todos los botones añadiendo un listener a cada uno para controlar cuando se les clickea,
-y añado la funcion La cual segun el id del boton que se clickeo añade dicho objeto al carrito*/
-for (var i = 0; i < botones.length; i++) {
-    botones[i].addEventListener("click", respuestaClickProd)
-    function respuestaClickProd(){
-        var boton2 = this.id;
-        switch (boton2) {
-            case "ButtonChomba":
-                agregarCarrito(objeto1)
-                NewProductNotification(objeto1)
-                GuardarlistaLS()
-                break;
-            case "ButtonRemera":
-                agregarCarrito(objeto2)
-                NewProductNotification(objeto2)
-                GuardarlistaLS()
-                break;
-            case "ButtonCuaderno":
-                agregarCarrito(objeto3)
-                NewProductNotification(objeto3)
-                GuardarlistaLS()
-                break;
-            case "ButtonCD":
-                agregarCarrito(objeto4)
-                NewProductNotification(objeto4)
-                GuardarlistaLS()
-                break;
-            case "ButtonGorraGradient":
-                agregarCarrito(objeto5)
-                NewProductNotification(objeto5)
-                GuardarlistaLS()
-                break;
-            case "ButtonGorraBlackAndWhite":
-                agregarCarrito(objeto6)
-                NewProductNotification(objeto6)
-                GuardarlistaLS()
-                break;
-            case "ButtonTaza":
-                agregarCarrito(objeto7)
-                NewProductNotification(objeto7)
-                GuardarlistaLS()
-                break;
-            case "ButtonCubrebocas":
-                agregarCarrito(objeto8)
-                NewProductNotification(objeto8)
-                GuardarlistaLS()
-                break;
-            case "ButtonStickers":
-                agregarCarrito(objeto9)
-                NewProductNotification(objeto9)
-                GuardarlistaLS()
-                break;
-            case "ButtonPendrive":
-                agregarCarrito(objeto10)
-                NewProductNotification(objeto10)
-                GuardarlistaLS()
-                break;
-        }
-    }
-}
+
 
 /* Hago que el boton del carrito lo muestre */
 var shadow_layer = document.getElementById("Shadow_layer")
