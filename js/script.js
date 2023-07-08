@@ -1,3 +1,4 @@
+
 let Products_grid = document.getElementById("Products_grid")
 
     const pedirPosts = async () => {
@@ -142,6 +143,7 @@ botonCarrito.onclick = () => {
     CalcularTotal()
     respuestaClickCarrito()
     AbrirCarrito()
+    console.log(carrito.lista)
 }
 function respuestaClickCarrito(){
     switch_visibilidad_paneles(carrito_lateral, shadow_layer);
@@ -172,6 +174,24 @@ var headerBoxShadow = window.getComputedStyle(headerElement).boxShadow;
 //var headerBoxShadowY = +headerBoxShadow.split("px")[2].trim(); 
 carrito_lateral.style.marginTop = headerHeight + 'px';
 
+let botontest = document.getElementById("Boton_comprar")
+botontest.addEventListener('click', Testboton)
+function Testboton(){
+    Swal.fire({
+        title: 'Gracias por tu compra!',
+        text: "Seras redirigido a la pagina de compra",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ir al checkout',
+        cancelButtonText: 'Seguir comprando'
+    }).then((result) => {
+        if (result.isDismissed) {
+            respuestaClickCarrito();
+        }
+      })
+}
 
 /* FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES*/
 
@@ -201,46 +221,61 @@ function AbrirCarrito(){
         for (let i = VerificadorCarrito.length; i < carrito.lista.length; i++){
         let NewProductoCarrito = document.createElement("li")
         NewProductoCarrito.className = "Producto_individual";
+        NewProductoCarrito.id = "Elemento_carritoN_" + i;
         NewProductoCarrito.innerHTML = `
                                     <div>
                                         <span class="cd-qty">1x </span>
                                         <span>${carrito.lista[i].producto}</span>
                                         <div class="Producto_precio">$${carrito.lista[i].precio}</div>
                                     </div>
-                                    <a href="#0" class="Producto_remover cd-img-replace"></a>`;
-        ProductosCarritoLateral.append(NewProductoCarrito)                  
+                                    <a href="#0" class="Producto_remover cd-img-replace id:${carrito.lista[i].identificador}" id="${i}"></a>`;
+        ProductosCarritoLateral.append(NewProductoCarrito)
         } 
     }
     let PrecioTotal = document.getElementById("Precio_carrito_total")
     CalcularTotal();
     PrecioTotal.innerHTML =`$ ${carrito.total}`
-}
-
                 // ---------------------------------------//
                 // -------------- QUITAR -----------------//
                 // ------------- PRODUCTOS ---------------//
                 // ------------ DEL CARRITO --------------//
                 // ---------------------------------------//
     var elementos = document.getElementsByClassName("Producto_remover");
+    
     for (var i = 0; i < elementos.length; i++) {
-        elementos[i].addEventListener("click", RespuestaClickRemover)
-        function RespuestaClickRemover(){
-            console.log("ClickTest")
-            let precio = elementos[i].previousElementSibling.lastElementChild.innerHTML
-            let nombre = precio.previousElementSibling.innerHTML
-            console.log(precio)
-            console.log(nombre)
-            //REMOVER LOS PRODUCTOS EN LOCAL STORAGE
-            let i = carrito.lista.indexOf(Object.producto == nombre)
-            carrito.lista.splice(i,1)
+        elementos[i].addEventListener("click", function(event) {
+            event.preventDefault();      
+            let asd = this.previousElementSibling.lastChild.previousElementSibling.previousElementSibling.innerHTML;
+            console.log("Deberia ser el titulo" + asd)
+            let idprod = carrito.lista.findIndex(x => x.producto === asd);
+            console.log("IdQueElimina "+idprod)
+            let testid = this.id;
+            let ProdCerrado = document.getElementById("Elemento_carritoN_" + testid);
+            console.log("ProductoEliminado")
+            console.log(ProdCerrado)
+            console.log("ListaPanel")
+            console.log(elementos)
+            console.log("ListaCarrito")
+            console.log(carrito.lista)
+            ProdCerrado.classList.add('Removed');
+            setTimeout(function(){
+                ProdCerrado.remove()
+            }, 300);
+            carrito.lista.splice(idprod,1)
             GuardarlistaLS()
+
+            for (let index = 0; index < carrito.lista.length; index++) {
+                elementos[index] = elementos[index].id = index;
+                
+            }
             //CALCULO PRECIO TOTAL
             let PrecioTotal = document.getElementById("Precio_carrito_total")
             CalcularTotal();
-            PrecioTotal.innerHTML =`$ ${carrito.total}`;
-        }
+            PrecioTotal.innerHTML =`$${carrito.total}`;
+        })
     }
     
+}
     
 /* FUNCION QUE GUARDA LA LISTA DEL CARRITO EN localStorage */
 function GuardarlistaLS(){
@@ -262,7 +297,6 @@ function CalcularTotal(){
     carrito.lista.forEach(objeto => {
         carrito.total = carrito.total + objeto.precio
     });
-    console.log(carrito)
 }
 
 function switch_visibilidad_paneles(panel_lateral, shadow_layer) {
