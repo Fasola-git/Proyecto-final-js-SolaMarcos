@@ -44,13 +44,6 @@ table {
 /* OTRO RESET  html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 */
 
-/* VARS */
-    $Color1: rgb(10,10,10);
-    $Color1: rgb(245, 245, 245);
-    $Color1: rgb(24, 24, 24);
-    $Color1: rgb(10,10,10);
-    $Color1: rgb(10,10,10);
-
 /* GENERAL */
 body {
     font: {
@@ -74,6 +67,7 @@ header{
     padding: 13px 0px 10px 13px;
     justify-content: space-between;
     background-color: rgb(24, 24, 24);
+    align-items: center;
     .Icono{
         width: 23%;
         display: inline;
@@ -117,6 +111,7 @@ header{
 	    height: auto;
         display: none;
 	    padding-left: 10px;
+        box-sizing: content-box;
     }
     .Checkbox_hamb {
         display: none;
@@ -238,10 +233,10 @@ main{
                 border-radius: 10px;
                 margin: 30px 0px;
                 &:hover{
-                    transition: all .50s;
-                    animation: fadeIn .2s ease;
                     background-color:rgb(199, 199, 199);
                     border-color: rgb(199, 199, 199);
+                    transition: all .50s;
+                    animation: fadeInButton .2s ease;
                     
                 }
             }
@@ -281,10 +276,19 @@ footer{
         }
     }
     #Redes{
-        text-align: center;
-        a img{
+        display: flex;
+        justify-content: center;
+        padding-top: 10px;
+        a{
+            width: 26px;
+            padding: 0px 12px;
+            box-sizing: content-box;
+        }
+        #Youtube{
+            padding-top: 1px;
+        }
+        #Spotify{
             width: 25px;
-            padding: 5px 10px 0px 10px;
         }
     }
 }
@@ -355,6 +359,16 @@ footer{
 }
 
 /* INDEX INDEX INDEX INDEX */
+#Background_video{
+    #video_desk{
+        display: block;
+    }
+    #video_mobile{
+        display: none;
+        width: 100%;
+        height: auto;
+    }
+}
 
 #Main_index{
 	display: block;
@@ -728,6 +742,7 @@ footer{
         animation: fade-in .3s;
     }
 }
+
 /* PRODUCCION PRODUCCION PRODUCCION PRODUCCION */
 
 #Main_produccion{
@@ -788,7 +803,7 @@ footer{
 
 /* MEDIA QUIRES */
 
-@media (max-width: 768px){/* esta consulta de medios se utiliza para dispositivos móviles con pantallas pequeñas, como teléfonos inteligentes en modo vertical. */
+@media (max-width: 767px){/* esta consulta de medios se utiliza para dispositivos móviles con pantallas pequeñas, como teléfonos inteligentes en modo vertical. */
 	/* Navbar */
 
     header{
@@ -833,11 +848,24 @@ footer{
         }
     }
 
-    #Carrito_lateral {
-        width:350px
+    #Background_video{
+        #video_desk{
+            display: none;
+        }
+        #video_mobile{
+            display: block;
+        }
     }
 
+    .footer_video{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
 }
+
+
 
 @media (min-width: 768px) and (max-width: 991px){/* Esta consulta de medios se utiliza para dispositivos móviles en modo horizontal y tabletas en orientación vertical. */
     header{
@@ -872,12 +900,18 @@ footer{
         }
     }
 
+    #Background_video{
+        #video_desk{
+            display: none;
+        }
+        #video_mobile{
+            display: block;
+        }
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px){/* Esta consulta de medios se utiliza para tabletas en orientación horizontal y pantallas de tamaño mediano. */
-    #Carrito_lateral {
-        width:30%;
-    }
+
 }
 
 @media (min-width: 1200px){/*  Esta consulta de medios se utiliza para pantallas de escritorio y portátiles. */
@@ -891,6 +925,11 @@ footer{
 	100% { color: transparent; }
 }
 
+@keyframes fadeInButton {
+	0% { background-color: rgb(245, 245, 245); }
+	100% { background-color:rgb(199, 199, 199); }
+}
+
 @keyframes fadeOut {
 	0% { color: transparent; }
 	100% { color: rgb(224, 224, 224); }
@@ -900,69 +939,3 @@ footer{
 	0% { color: rgb(24, 24, 24); }
 	100% { color: transparent; }
 }
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-moz-keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOutRight {
-    0% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(100%);
-        display: none;
-    }
- } 
-
- @-webkit-keyframes fadeOutRight {
-    0% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(100%);
-        display: none;
-    }
- } 
-
-@-moz-keyframes fadeOutRight {
-    0% {
-       opacity: 1;
-       transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(100%);
-        display: none;
-    }
- } 
