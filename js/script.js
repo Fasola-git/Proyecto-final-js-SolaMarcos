@@ -1,10 +1,10 @@
-
+/* TOMO COMO LA LISTA DEL HTML DONDE IRAN LOS PRODUCTOS */
 let Products_grid = document.getElementById("Products_grid")
-
+/* GENERO UNA PROMESA DONDE CREA TODOS LOS ELEMENTOS DE LA BASE DE DATOS EN JSON */
     const pedirPosts = async () => {
         const resp = await fetch('../storage/data.json')
         const data = await resp.json()
-       
+       /* CREA LOS ELEMENTOS DEL CARRITO */
         data.forEach((post) => {
             if (post.style == "Dark") {
                 var li = document.createElement('li')
@@ -30,6 +30,7 @@ let Products_grid = document.getElementById("Products_grid")
                                 </div>
                     </label>
                 `
+            /* SI EL ELEMENTO ES OSCURO COMO LA CHOMBA LOS CREA CON UN ESTILO CLARO */
             }else{
                 var li = document.createElement('li')
                 li.classList.add('Grid_item')
@@ -54,7 +55,7 @@ let Products_grid = document.getElementById("Products_grid")
                             </div>
                     </label>
                 `
-            }
+            }/* AÑADE LOS ELEMENTOS A LA LISTA */
             Products_grid.append(li)
         })
         /* Asignno a botones a todos los elementos de la clase de ButonProd */
@@ -133,34 +134,20 @@ if(listaLS){
 /* Instancio un objeto carrito con la lista de objetos, el total del carrito y la cantidad de objetos del mismo */
 var carrito = {lista, total: 0, cantidad: lista.length};
 
-
-
-/* Hago que el boton del carrito lo muestre */
+/* Hago que el boton del carrito abra el panel lateral*/
 var shadow_layer = document.getElementById("Shadow_layer")
 var carrito_lateral = document.getElementById("Carrito_lateral")
 var botonCarrito = document.getElementById("ButtonCarrito")
 botonCarrito.onclick = () => {
     CalcularTotal()
-    respuestaClickCarrito()
+    switch_visibilidad_paneles(carrito_lateral, shadow_layer)
     AbrirCarrito()
     console.log(carrito.lista)
 }
-function respuestaClickCarrito(){
-    switch_visibilidad_paneles(carrito_lateral, shadow_layer);
-} 
-
-/*
-    NO DAR IMPORTANCIA
-    var carrito_icon = document.getElementById("Carrito_icon")
-
-    carrito_icon.addEventListener("click", respuestaClickCarrito)
-    carrito_icon.onclick = () => {
-        respuestaClickCarrito()
-    }
-*/
 
 /* Clickear en la sombra oculta el panel del carrito */
 shadow_layer.addEventListener("click", respuestaClickShadow)
+
 function respuestaClickShadow(){
     shadow_layer.classList.remove('is-visible');
     if (carrito_lateral.classList.contains('speed-in')){
@@ -174,9 +161,11 @@ var headerBoxShadow = window.getComputedStyle(headerElement).boxShadow;
 //var headerBoxShadowY = +headerBoxShadow.split("px")[2].trim(); 
 carrito_lateral.style.marginTop = headerHeight + 'px';
 
-let botontest = document.getElementById("Boton_comprar")
-botontest.addEventListener('click', Testboton)
-function Testboton(){
+/* UTILIZO LA LIBRERIA DE SWEET ALERT PARA CREAR UNA NOTIFICACION QUE SALE AL PRESIONAR EL BOTON VERDE DE COMPRAR EN EL PANEL LATERAL */
+let NotificacionCheckout = document.getElementById("Boton_comprar")
+NotificacionCheckout.addEventListener('click', NotiCheckout)
+/* FUNCION QUE CREA LA NOTIFICACION DEL CHECKOUT */
+function NotiCheckout(){
     Swal.fire({
         title: 'Gracias por tu compra!',
         text: "Seras redirigido a la pagina de compra",
@@ -195,8 +184,8 @@ function Testboton(){
 
 /* FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES FUNCIONES*/
 
-/* FUNCION QUE CREA Y QUITA LAS NOTIFICACINOES DE CADA PRODUCTO */
-function NewProductNotification(objeto){/* COMENTARIO PERSONAL: Cambiar las notificaciones utilizando la libreria de toastify */
+/* FUNCION QUE CREA Y QUITA LAS NOTIFICACINOES DE CADA PRODUCTO AL AÑADIRLOS*/
+function NewProductNotification(objeto){
     let SideNotification = document.getElementById("Side_notification")
     let NewNotification = document.createElement("div")
     NewNotification.className = "New_notification";
@@ -213,10 +202,12 @@ function NewProductNotification(objeto){/* COMENTARIO PERSONAL: Cambiar las noti
     }, 3500);
 }
 
+
 /* FUNCION QUE SETEEA LOS VALORES AL ABRIR EL PANEL LATERAL DEL CARRITO */
 function AbrirCarrito(){
     let ProductosCarritoLateral = document.getElementById("Prods_carro_lateral")
     let VerificadorCarrito = document.getElementsByClassName("Producto_individual")
+    /* SI LA CANTIDAD DE ELEMENTOS DEL CARRITO NO COINCIDE CON LA CANTIDAD DE ELEMENTOS DEL PANEL LATERAL CREA LOS ELEMENTOS RESTANTES QUE AUN NO ESTAN EN EL PANEL LATERAL */
     if (carrito.lista.length != VerificadorCarrito.length){
         for (let i = VerificadorCarrito.length; i < carrito.lista.length; i++){
         let NewProductoCarrito = document.createElement("li")
@@ -231,44 +222,45 @@ function AbrirCarrito(){
                                     <a href="#0" class="Producto_remover cd-img-replace id:${carrito.lista[i].identificador}" id="${i}"></a>`;
         ProductosCarritoLateral.append(NewProductoCarrito)
         } 
-    }
+    } //COMENTARIO PERSONAL, SE PIENSA AGREGAR AQUI UNA FUNCION QUE ACTUALICE LOS PRECIOS DEL PANEL LATERAL SI POR ALGUNA RAZON LOS PRECIOS DE LOS PRODUCTOS CAMBIAN EN EL JSON
+    /* AL ABRIR EL PANEL LATERAL EL PRECIO TOTAL SE ACTUALIZA CON CalcularTotal() */
     let PrecioTotal = document.getElementById("Precio_carrito_total")
     CalcularTotal();
     PrecioTotal.innerHTML =`$ ${carrito.total}`
-                // ---------------------------------------//
-                // -------------- QUITAR -----------------//
-                // ------------- PRODUCTOS ---------------//
-                // ------------ DEL CARRITO --------------//
-                // ---------------------------------------//
-    var elementos = document.getElementsByClassName("Producto_remover");
-    
-    for (var i = 0; i < elementos.length; i++) {
-        elementos[i].addEventListener("click", function(event) {
-            event.preventDefault();      
-            let asd = this.previousElementSibling.lastChild.previousElementSibling.previousElementSibling.innerHTML;
-            console.log("Deberia ser el titulo" + asd)
-            let idprod = carrito.lista.findIndex(x => x.producto === asd);
-            console.log("IdQueElimina "+idprod)
-            let testid = this.id;
-            let ProdCerrado = document.getElementById("Elemento_carritoN_" + testid);
-            console.log("ProductoEliminado")
-            console.log(ProdCerrado)
-            console.log("ListaPanel")
-            console.log(elementos)
-            console.log("ListaCarrito")
-            console.log(carrito.lista)
+
+    /* ELIMINAR PRODUCTOS DEL CARRITO */
+
+/* OBTENGO TODOS LOS BOTONES DE CERRAR */
+    var CerrarProd = document.getElementsByClassName("Producto_remover");
+    /* RECORRO TODOS LOS ELEMENTOS DEL ARRAY DE BOTONES QUE CIERRAN, Y OBTENIENDO EL NOMBRE DEL PRODUCTO LOS ELIMINA DEL LOCAL STORAGE Y DEL PANEL LATERAL */
+    for (var i = 0; i < CerrarProd.length; i++) {
+        CerrarProd[i].addEventListener("click", function(event) {
+            event.preventDefault();
+            /* OBTENGO EL TITULO DEL PRODUCTO A ELIMINAR */
+            let TituloProductoEliminado = this.previousElementSibling.lastChild.previousElementSibling.previousElementSibling.innerHTML;
+            /* BUSCO EL OBJETO A ELMINIAR EN EL CARRITO */
+            let objelimin = carrito.lista.find(o => o.producto === TituloProductoEliminado);
+            console.log("Objeto eliminado: "+objelimin)
+            /* UNA VEZ OBTENGO EL PRODUCTO BUSCO SU INDICE CON INDEXOF */
+            idprod = carrito.lista.indexOf(objelimin)
+            console.log("IdQueElimina: "+idprod)
+            /* Y LO ELIMINO DEL CARRITO Y GUARDO EL CARRITO ACTUALIZADO EN EL LOCALSTORAGE */
+            carrito.lista.splice(idprod,1)
+            GuardarlistaLS()
+            
+            /* OBTENGO EL LI DEL BOTON QUE ESTOY PRESIONANDO PARA CERRAR*/
+            let ProdCerrado = this.parentElement;
+            /* LE DOY UNA CLASE PARA DARLE UNA ANIMACION DE QUE SE CIERRA */
             ProdCerrado.classList.add('Removed');
+            /* Y LO QUITO UNA VEZ TERMINA EL TIEMPO DE LA ANIMACION */
             setTimeout(function(){
                 ProdCerrado.remove()
             }, 300);
-            carrito.lista.splice(idprod,1)
-            GuardarlistaLS()
 
-            for (let index = 0; index < carrito.lista.length; index++) {
-                elementos[index] = elementos[index].id = index;
-                
-            }
-            //CALCULO PRECIO TOTAL
+            /* MUESTRO EL CARRITO SOLO PARA REVISAR */
+            console.log("ListaCarrito")
+            console.log(carrito.lista)
+            /* ACTUALIZO EL PRECIO TOTAL QUITANDO EL ELEMENTO SELECCIONADO */
             let PrecioTotal = document.getElementById("Precio_carrito_total")
             CalcularTotal();
             PrecioTotal.innerHTML =`$${carrito.total}`;
@@ -298,7 +290,7 @@ function CalcularTotal(){
         carrito.total = carrito.total + objeto.precio
     });
 }
-
+/* FUNCION QUE CAMBIA LA VISIBILIDAD ENTRE EL PANEL LATERAL Y LA CAPA DE SOMBRA */
 function switch_visibilidad_paneles(panel_lateral, shadow_layer) {
     if (panel_lateral.classList.contains('speed-in')) {
         panel_lateral.classList.remove('speed-in')
